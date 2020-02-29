@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block index %}
+<title>我的信息</title>
+<link href="/static/css/dashboard.css" rel="stylesheet" />
+<div class="page">
+      <div class="page-main">
+         <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg order-lg-first">
+            <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+              <li class="nav-item dropdown">
+                <a href="/manage_person_video/" class="nav-link" data-toggle="dropdown"><i class="fe fe-calendar"></i>我的视频</a>
+              </li>
+              <li class="nav-item">
+                <a href="/publish_video/" class="nav-link" data-toggle="dropdown"><i class="fe fe-box"></i>我要发布</a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a href="/doctor_info/" class="nav-link  active" data-toggle="dropdown"><i class="fe fe-file"></i>我的信息</a>
+              </li>
+                <li class="nav-item">
+                <a href="/logout/" class="nav-link"><i class="fe fe-file-text"></i>退出登录</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+      {% for i in doctor_info %}
+        <div class="my-3 my-md-5">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <form method="post" class="card">
+                {% csrf_token %}
+                  <div class="card-body">
+                    <h3 class="card-title">编辑你的信息</h3>
+                    <div class="row">
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <label class="form-label">你所在的医院名称</label>
+                          <input required name="company" type="text" class="form-control"  placeholder="Company" value="{{ i.company }}">
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                          <label class="form-label">你的名字</label>
+                          <input required name="name" type="text" class="form-control" placeholder="Username" value="{{ i.name }}">
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                          <label class="form-label">你的邮箱地址</label>
+                          <input required name="email" type="email" class="form-control" placeholder="Email" value="{{ i.email }}">
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">你的性别</label>
+                            {% if i.sex == '男' %}
+                            <select name="sex" class="form-control">
+                            <option>男</option>
+                            <option>女</option>
+                          </select>
+                                {% else %}
+                                <select name="sex" class="form-control">
+                                    <option>女</option>
+                                    <option>男</option>
+                                </select>
+                            {% endif %}
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">联系电话</label>
+                          <input required name="tel" type="text" class="form-control" placeholder="Last Name" value="{{ i.tel }}">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="form-label">联系地址</label>
+                          <input required name="address" type="text" class="form-control" placeholder="Home Address" value="{{ i.address }}">
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <label class="form-label">介绍你自己</label>
+                         <textarea required name="person_info" rows="5" class="form-control" placeholder="Here can be your infomation">{{ i.person_info }}</textarea>
+                      </div><br/>
+                      <div class="col-md-12">
+                        <div class="form-group mb-0">
+                          <label class="form-label">介绍你的医院</label>
+                          <textarea required name="com_info" rows="5" class="form-control" placeholder="Here can be your hosipital infomation">{{ i.hospital_info }}</textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer text-right">
+                    <button type="submit" class="btn btn-primary">修改信息</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,147 @@
+﻿{% extends 'base.html' %}
+{% block index %}
+<link rel="stylesheet" href="/static/css/jsmodern.min.css">
+<link rel="stylesheet" href="/static/css/comment.css">
+<link rel="stylesheet" href="/static/css/page.css">
+<script src="/static/js/jquery-2.2.4.min.js"></script>
+<script src="/static/js/jsmodern.min.js"></script>
+{% if error %}
+    <script>
+    alert("{{ error }}");
+    </script>
+{% endif %}
+<div class="all" style="height: 1600px;margin: 0 auto;">
+	<div style="float: left;width: 70%" id="video">
+		<video src="/media/{{ video_info.file }}" id="videoShow"></video>
+		<span class="VideoBtn"><img src="/static/images/bo1.png"></span>
+
+		<ul>
+			<li class="title"><p>{{ video_info.title }}</p></li>
+		</ul><br/>
+		<ul><li></li>
+			<li><p>发布时间:{{ video_info.time }}</p></li>
+            {% if not author_key %}
+			    <li><a style="color:red;" href="/collection_video/?video_id={{video_info.id }}">收藏视频</a></li>
+                <li>发布人:{{ doctor.name }}&nbsp;<a style="color:red;" href="/collection_doctor/?video_id={{ video_info.id }}">关注</a></li>
+            {% else %}
+                <li><p>收藏视频</p></li>
+                <li>发布人:{{ doctor.name }}
+                </li>
+            {% endif %}
+
+		</ul>
+		    <div class="commet">
+			<div class="wrap">
+                 <form id="comment_info" method="post">
+                {% csrf_token %}
+                    <div class="says">
+                        <textarea id="info" name="info" placeholder="来，说说你在做什么，想什么..."></textarea>
+                        <input type="button" onclick="get_info()"  value="发布">
+                        <div id="errmsg"  class="errmsg">请填写内容后再发布！</div>
+                    </div>
+                 </form>
+				<ul>
+                    {% for comment in commet_info %}
+                        <li>
+						<div style=" font-size: 15px;margin-left: -60px;">{{ comment.info }}</div>
+						<span style="float: right">
+                            {{ comment.patient }}
+							{{ comment.time }}
+							{% if author_key %}
+                                <a href="/delete_comment/?commemt_id={{ comment.id }}&video={{ video_info.id }}" title="删除这条信息">删除</a>
+                            {% endif %}
+						</span>
+					</li>
+                    {% endfor %}
+                {% if page_key %}
+                    <li style="border: none">
+                        <div id="page-normal">
+                        {% if commet_info.has_previous %}
+                            <a href="?page={{ commet_info.previous_page_number }}?video_id={{ video_id }}&key={{ key }}">上一页</a>
+                        {% endif %}
+                        <v herf="?page=1?video_id={{ video_id }}&key={{ key }}">第一页</v>
+                        <a herf="?page={{ commet_info.number }}?video_id={{ video_id }}&key={{ key }}">共{{ all_commmet }}条</a>
+                        <a herf="?page={{ commet_info.number }}?video_id={{ video_id }}&key={{ key }}">共{{ commet_info.paginator.num_pages}}页</a>
+                        <a herf="?page={{ commet_info.number }}?video_id={{ video_id }}&key={{ key }}">当前页{{ commet_info.number }}</a>
+                        {% if commet_info.has_next %}
+                            <a id="page-next" href="?page={{ commet_info.next_page_number }}?video_id={{ video_id }}&key={{ key }}">下一页<i></i></a>
+                        {% endif %}
+                    </div>
+                    </li>
+                {% endif %}
+				</ul>
+
+			</div>
+
+		</div>
+
+	</div>
+{% if patient_key %}
+	<div class="right_video">
+        {% for l in info_video %}
+		<div style="padding: 10px;border-top:#A73C46 solid 1px;" class="video_show">
+
+                <img style="width: 36px;" src="/static/images/bo1.png">
+			<div class="info">
+				<a href="/paly_video/?video_id={{ l.id }}&key=outhor" class="test mb-3"><h3>{{ l.title }}</h3></a>
+				<br/><br/><br/><br/>
+				<h6>发布时间：{{ l.time }}</h6>
+			</div>
+		</div>
+        {% endfor %}
+	</div>
+{% endif %}
+</div>
+    <script>
+    function get_info() {
+        var info=$("#info").val();
+        if(info==''){
+            $("#errmsg").css('opacity',1)
+        }
+        else{
+            $("#comment_info").submit()
+        }
+    }
+    </script>
+<script>
+$(function () {
+
+	jsModern.video("#video");
+
+	$(".VideoBtn").click(function () {
+		var video = document.getElementById("videoShow");
+		video.play();
+		$('.VideoBtn').hide();
+	})
+
+	var video = document.getElementById("videoShow");
+	video.oncanplay = function () {
+		$(".VideoBtn").show();
+
+	}
+
+	video.onplay = function () {
+		$("#videoShow").attr("poster", "");
+		$(".VideoBtn").hide();
+	};
+	video.onplaying = function () {
+		$(".VideoBtn").hide();
+	};
+
+
+	video.onpause = function () {
+		$(".VideoBtn").show();
+	};
+
+	video.onclick = function () {
+		if (video.paused) {
+			$(".VideoBtn").hide();
+			video.play();
+		} else {
+			$(".VideoBtn").show();
+			video.pause();
+		}
+	};
+})
+</script>
+{% endblock %}

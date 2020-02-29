@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block index %}
+<title>全部视频</title>
+<link href="/static/css/dashboard.css" rel="stylesheet" />
+<div class="page">
+  <div class="page-main">
+    <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg order-lg-first">
+            <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+              <li class="nav-item dropdown">
+                <a href="/admin_vodeo/" class="nav-link" data-toggle="dropdown"><i class="fe fe-calendar"></i>所有视频</a>
+              </li>
+              <li class="nav-item">
+                <a href="/admin_doctor/" class="nav-link active" data-toggle="dropdown"><i class="fe fe-box"></i>所有医生</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a href="/admin_patient/" class="nav-link" data-toggle="dropdown"><i class="fe fe-file"></i>所有病人</a>
+              </li>
+                <li class="nav-item dropdown">
+                <a href="/logout/?key=admin" class="nav-link" data-toggle="dropdown"><i class="fe fe-file"></i>退出登录</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="my-3 my-md-5">
+      <div class="container">
+        <div class="col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">所有医生</h3>
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table card-table table-striped table-vcenter">
+                      <thead>
+                        <tr>
+                           <th class="w-1">ID</th>
+                          <th>姓名</th>
+                          <th>性别</th>
+                          <th>邮箱</th>
+                          <th>电话</th>
+                          <th>注册时间</th>
+                          <th>个人介绍</th>
+                            <th>所在医院介绍</th>
+                        <th>操作</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for i in info %}
+                        <tr>
+                          <td><span class="avatar">0{{ i.id }}</span></td>
+                          <td>{{ i.name }}</td>
+                          <td>{{ i.sex }}</td>
+                          <td class="text-nowrap">{{ i.email }}</td>
+                            <td class="text-nowrap">{{ i.tel }}</td>
+                            <td class="text-nowrap">{{ i.time }}</td>
+                            <td class="text-nowrap">{{ i.person_info }}</td>
+                            <td class="text-nowrap">{{ i.hospital_info }}</td>
+                          <td><a href="/admin_delete/?key=doctor&id={{ i.id }}" class="icon"><i class="fe fe-trash"></i></a></td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

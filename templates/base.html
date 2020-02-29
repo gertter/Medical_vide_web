@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>预防康复协助系统</title>
+<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+{#<meta name="viewport" content="width=device-width, initial-scale=1">#}
+<link href="/static/css/index.css" type="text/css" rel="stylesheet">
+<script src="/static/js/jquery-2.2.4.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<style>
+     .header input::-webkit-input-placeholder{
+            color:white;
+
+        }
+    .header input[type='text']{
+        float: left;
+        width: 60%;
+        background: #A73C46;
+        margin-left: 50px;
+        margin-top: 10px;
+        border-right: none;
+        padding-left: 5px;
+        border-top: white 1px solid;
+        border-left: white 1px solid;
+        border-bottom: white 1px solid;
+        height: 35px;
+    }
+    .header input[type='submit']{
+         height: 35px;
+        width: 17%;
+        background: #A73C46;
+        color: white;
+         margin-top: 10px;
+        border-left: none;
+        position: relative;
+        right: 4px;
+        border-top: white 1px solid;
+        border-right: white 1px solid;
+        border-bottom: white 1px solid;
+    }
+    .header button{
+         height: 35px;
+        width: 10%;
+        background: #A73C46;
+         margin-top: 10px;
+        border-right: white 1px solid;
+        position: relative;
+        top: -2px;
+        border-left: white 1px solid;
+        outline: none;
+        border-top: white 1px solid;
+        border-bottom: white 1px solid;
+
+    }
+    .v_bg{
+    position: absolute;
+    top: 139px;
+    left: 750px;
+    z-index: 1000;
+    width: 20%;
+    display: none;
+    height: 30%;
+    box-shadow: 0px 0px 70px 0px #dfdfdf;
+    background: white;
+    }
+</style>
+<body>
+<div class="v_bg">
+  <div class="service-item service-item-taste">
+    <div class="service-item-content service-item-taste-content">
+      <div class="start-taste">
+        <div class="start-taste-left">
+          <div class="time-box">
+            <span class="start-taste-line">
+              <hr class="hr hr1">
+              <hr class="hr hr2">
+              <hr class="hr hr3">
+              <hr class="hr hr4">
+              <hr class="hr hr5">
+              <hr class="hr hr6">
+              <hr class="hr hr7">
+              <hr class="hr hr8">
+              <hr class="hr hr9">
+              <hr class="hr hr10">
+            </span>
+            <span class="total-time"><span class="used-time">00: 00</span> / 01: 00</span></span>
+          </div>
+          <div class="start-taste-button">
+            <button id="end" class="taste-button start-button">结束识别</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="header" style="background: #A73C46">
+	<div class="container" style="margin: 0 auto;">
+		<div class="header-main">
+			<div class="header-left" style="margin-left:-132px;">
+				<div class="logo">
+				   <h1>
+                       <a href="index.html">
+                            <img style="width: 60px;" src="/static/images/logo.png">预防康复协助系统
+                        </a>
+                   </h1>
+			    </div>
+
+			  </div>
+        {% if patient_key %}
+            <form action="/all_video/" method="get">
+             <div class="enter" style="width: 450px;float:left">
+                 <input id="result_output"  name="keyword" style="float: left;color: white" type="text" placeholder="搜索视频">
+                  <input type="submit" value="搜索">
+                  <button type="button" class="taste-button ready-button" id="taste_button"><img style="width: 30px;" src="/static/images/v.jpg"></button>
+
+             </div>
+            </form>
+        {% endif %}
+				<div class="top-navg">
+					<nav class="cl-effect-16">
+						<ul class="res">
+							<li><a class="scroll" data-hover="首页" href="/">首页</a></li>
+                            {% if not patient_key and not doctor_key%}
+                                <li><a class="scroll" data-hover="登录/注册" href="/signin/">登录/注册</a></li>
+                            {% elif doctor_key %}
+                                <li><a class="scroll" data-hover="个人中心" href="/doctor_info/">个人中心</a></li>
+                            {% elif patient_key %}
+                                <li><a class="scroll" data-hover="个人中心" href="/patient_info/">个人中心</a></li>
+                            {% endif %}
+                        <li><a class="scroll" data-hover="管理员" href="/admin_login/">管理员</a></li>
+						</ul>
+					</nav>
+				</div>
+		</div>
+	</div>
+</div>
+{% block index %}
+{% endblock %}
+<div style="background: #000000;" class="footer">
+	<div class="container">
+		<div class="footer-main">
+		   <div style="width: 500px;margin-left: 400px;" class="col-md-4 ftr-grid">
+		   	<p>Copyright © 2020 Wy. All rights reserved.</p>
+		   </div>
+
+	    </div>
+	</div>
+</div>
+<script>
+    $("#end").click(function () {
+        $(".v_bg").hide();
+    })
+</script>
+<script src="/static/js/hmac-sha256.js"></script>
+<script src="/static/js/enc-base64-min.js"></script>
+<script src="/static/js/index.js"></script>

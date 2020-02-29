@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block index %}
+<title>观看记录</title>
+<link href="/static/css/dashboard.css" rel="stylesheet" />
+<div class="page">
+  <div class="page-main">
+   <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg order-lg-first">
+            <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+              <li class="nav-item dropdown">
+                <a href="/patient_index/" class="nav-link" data-toggle="dropdown"><i class="fe fe-calendar"></i>视频中心</a>
+              </li>
+              <li class="nav-item">
+                <a href="/patient_record/" class="nav-link   active" data-toggle="dropdown"><i class="fe fe-box"></i>观看记录</a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a href="/patient_doctor/" class="nav-link" data-toggle="dropdown"><i class="fe fe-file"></i>我收藏的医生</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a href="/patient_video/" class="nav-link"><i class="fe fe-check-square"></i>我收藏的视频</a>
+              </li>
+              <li class="nav-item">
+                <a href="/all_video/" class="nav-link"><i class="fe fe-image"></i>全部视频</a>
+              </li>
+              <li class="nav-item">
+                <a href="/patient_info/" class="nav-link"><i class="fe fe-file-text"></i>我的信息</a>
+              </li>
+                  <li class="nav-item">
+                <a href="/logout/" class="nav-link"><i class="fe fe-file-text"></i>退出登录</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="my-3 my-md-5">
+      <div class="container">
+        <div class="page-header">
+          <h1 class="page-title">
+            观看记录
+          </h1>
+        </div>
+          {% if not key %}
+          <div style="margin-left: 100px" class="row">
+              <h1>暂无观看记录</h1>
+            <a style="margin-left: 100px;" href="/all_video/"><button class="btn btn-primary ml-auto">去观看>></button></a>
+          </div>
+          {% else %}
+            <div class="row row-cards row-deck">
+            {% for i in video %}
+                <div class="col-sm-6 col-xl-3">
+            <div class="card">
+              <a href="/paly_video/?video_id={{ i.id }}&key=outhor" class="test mb-3">
+                           <video width="100%">
+                            <source src="/media/{{ i.file }}">
+                        </video>
+                <div class="hello"><img src="/static/images/bo1.png">继续观看</div>
+            </a>
+              <div class="card-body d-flex flex-column">
+                <h4><a href="#">{{ i.title }}</a>
+                </h4><p>观看时间:{{ i.time }}</p>
+                 <a href="/delete_person_video/?key=recode&video={{ i.id }}"><img style="width: 14px;float: right;" src="/static/images/close.jpg"></a>
+              </div>
+            </div>
+          </div>
+            {% endfor %}
+            <a href="/delete_person_video/?key=all&" style="margin-left: 1100px;">清空记录...</a>
+        </div>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

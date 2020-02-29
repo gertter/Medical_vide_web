@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block index %}
+<title>全部视频</title>
+<link href="/static/css/dashboard.css" rel="stylesheet" />
+<div class="page">
+  <div class="page-main">
+    <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg order-lg-first">
+            <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+              <li class="nav-item dropdown">
+                <a href="/admin_vodeo/" class="nav-link active" data-toggle="dropdown"><i class="fe fe-calendar"></i>所有视频</a>
+              </li>
+              <li class="nav-item">
+                <a href="/admin_doctor/" class="nav-link" data-toggle="dropdown"><i class="fe fe-box"></i>所有医生</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a href="/admin_patient/" class="nav-link" data-toggle="dropdown"><i class="fe fe-file"></i>所有病人</a>
+              </li>
+                <li class="nav-item dropdown">
+                <a href="/logout/?key=admin" class="nav-link" data-toggle="dropdown"><i class="fe fe-file"></i>退出登录</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="my-3 my-md-5">
+      <div class="container">
+        <div class="row row-cards">
+            {% for i in info %}
+                <div class="col-sm-6 col-lg-4">
+            <div class="card p-3">
+              <a href="/paly_video/?video_id={{ i.id }}&key=outhor" class="mb-3">
+                   <video width="100%">
+                    <source src="/media/{{ i.file }}">
+                </video>
+                  </a>
+              <div class="d-flex align-items-center px-2">
+                <div>
+                  <div>{{ i.title }}</div>
+                  <small class="d-block text-muted">{{ i.time }}</small>
+                </div>
+                <div class="ml-auto text-muted">
+                  <a href="javascript:void(0)" class="icon">发布人:{{ i.doctor }}</a>
+                    <a href="/admin_delete/?key=video&id={{ i.id }}" class="icon"><i class="fe fe-trash"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
