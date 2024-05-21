@@ -16,6 +16,6 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-print(222)
+print("我提交第3个commit")
 if __name__ == '__main__':
     main()
